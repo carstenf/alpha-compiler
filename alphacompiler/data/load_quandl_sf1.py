@@ -18,6 +18,8 @@ import os
 import pandas as pd
 import glob
 
+from alphacompiler.util.database_util  import populate_raw_data_from_database
+
 BASE = os.path.dirname(os.path.realpath(__file__))
 DS_NAME = 'SHARADAR/SF1'   # quandl DataSet code
 RAW_FLDR = "raw"  # folder to store the raw text file
@@ -25,9 +27,10 @@ START_DATE = '2009-01-01'  # this is only used for getting data from the API
 END_DATE = datetime.datetime.today().strftime('%Y-%m-%d')
 
 ZIPLINE_DATA_DIR = zipline_root() + '/data/'
-FN = "SF1.npy"  # the file name to be used when storing this in ~/.zipline/data
+#FN = "SF1.npy"  # the file name to be used when storing this in ~/.zipline/data
+FN = "SF1.npy" 
 
-DUMP_FILE = '/Users/peterharrington/Downloads/SHARADAR_SF1_2daa4baaad2a300c166b5c0f7e546bd1.csv'
+DUMP_FILE = '/Users/carstenfreek/opt/data/quandl/SHARADAR_SF1.csv'
 
 log = Logger('load_quandl_sf1.py')
 
@@ -176,6 +179,11 @@ def all_tickers_for_bundle_from_dump(fields, dims, bundle_name, raw_path=os.path
     tickers = get_ticker_sid_dict_from_bundle(bundle_name)
     populate_raw_data_from_dump(tickers, fields, dims, raw_path)
 
+def all_tickers_for_bundle_from_database(fields, dims, bundle_name, raw_path=os.path.join(BASE, RAW_FLDR)):  
+    tickers = get_ticker_sid_dict_from_bundle(bundle_name)
+    populate_raw_data_from_database(tickers, fields, dims, raw_path)
+
+
 
 def num_tkrs_in_bundle(bundle_name):
     return len(get_ticker_sid_dict_from_bundle(bundle_name))
@@ -193,16 +201,16 @@ if __name__ == '__main__':
     # dimensions1 = ['ART', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
 
     # Marc's turntup Quality companies in an uptrend
-    fields2 = ['roe', 'marketcap', 'de', 'debt', 'debtnc']
-    dimensions2 = ['ART', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
+    #fields2 = ['roe', 'marketcap', 'de', 'debt', 'debtnc']
+    #dimensions2 = ['ART', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
 
     # more value
     # fields3 = ['ebitda', 'ev', 'pe', 'pe1', 'marketcap']
     # dimensions3 = ['ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ']
 
-    fields4 = ['netinc', 'equity', 'bvps', 'sps', 'fcfps', 'price', 'roe', 'roe']
-    fields = fields4
-    dimensions = ['ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ARQ']
+    #fields4 = ['netinc', 'bvps', 'sps', 'fcfps', 'price', 'roe', 'roe' ]
+    #fields = fields4
+    #dimensions = ['ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ARQ' ]
 
     # fields = ['assetsavg','bvps','capex','cashnequsd','debtusd','dps','ebitdausd','ebitusd','equityavg','equityusd',
     #            'fcf','fcfps', 'gp', 'intangibles','liabilitiesc','ncfo','netinc','netinccmn','netinccmnusd','price',
@@ -214,11 +222,55 @@ if __name__ == '__main__':
     #            'sharesbas', 'shareswa']
     # dimensions = ['ART'] * len(fields)  # use all ART
 
+
+    #fields1 = ['assetsavg','bvps','capex','cashnequsd','debtusd','dps','ebitdausd','ebitusd','epsusd','equityavg',
+    #           'equity','equityusd','ev','fcf','fcfps', 'gp', 'intangibles','intexp','liabilities','liabilitiesc',
+    #           'ncfo','netinc','netinccmn','netinccmnusd','opex','price','revenueusd','roa','roe','roic',
+    #           'sharefactor','sps','sharesbas','shareswa']
+
+    #fields2 = fields1          
+
+
+    #dimensions1 = [ 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART',
+    #                'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART',
+    #                'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART',
+    #                'ART', 'ART', 'ART', 'ART' ]
+
+    #dimensions2 = [ 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ',
+    #                'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ',
+    #                'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ',
+    #                'ARQ', 'ARQ', 'ARQ', 'ARQ' ]
+
+
+    fields1 = ['assets','assetsavg','capex','cashnequsd','debtc','debtnc','debtusd','dps','epsusd','ebitusd',
+              'ebitdausd','equityavg','equityusd','gp','intangibles','invcap','liabilitiesc','ncfo','ncfbus','ncfinv',
+              'opex','revenueusd','sharefactor','sharesbas','shareswa','ncfcommon','netinccmnusd']
+        
+    fields2 = fields1 
+
+    dimensions1 = [ 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART',
+                    'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART',
+                    'ART', 'ART', 'ART', 'ART', 'ART', 'ART', 'ART']
+
+    dimensions2 = [ 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ',
+                    'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ',
+                    'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ', 'ARQ'] 
+
+
+    fields     = fields1     + fields2
+    dimensions = dimensions1 + dimensions2
+
+    print('prepare the following fundamentals:')
+    print('fields',fields)
+    print('dimensions',dimensions)
+
     BUNDLE_NAME = 'sep'
     num_tickers = num_tkrs_in_bundle(BUNDLE_NAME)
     print('number of tickers: ', num_tickers)
 
-    all_tickers_for_bundle_from_dump(fields, dimensions, 'sep')  # downloads the data to /raw
+    #all_tickers_for_bundle_from_dump(fields, dimensions, 'sep')  # downloads the data to /raw
+    all_tickers_for_bundle_from_database(fields, dimensions, 'sep')
+
     fields_dimensions = ['{}_{}'.format(i, j) for i, j in zip(fields, dimensions)]
     pack_sparse_data(num_tickers + 1,  # number of tickers in buldle + 1
                     os.path.join(BASE, RAW_FLDR),

@@ -17,10 +17,15 @@ import numpy as np
 from alphacompiler.util.zipline_data_tools import get_ticker_sid_dict_from_bundle
 from zipline.data.bundles.core import register
 
+from alphacompiler.util.database_util  import create_static_table_from_database
+
+from zipline.utils.paths import zipline_root
+
 TICKER_FILE = '/Users/peterharrington/Downloads/SHARADAR_TICKERS_6cc728d11002ab9cb99aa8654a6b9f4e.csv'
 BUNDLE_NAME = 'sep'
 
-ZIPLINE_DATA_DIR = '/Users/peterharrington/.zipline/data/'  # TODO: get this from Zipline api
+ 
+ZIPLINE_DATA_DIR = zipline_root() + '/data/' 
 SID_FILE = "SHARDAR_sectors.npy"  # persisted np.array
 STATIC_FILE = "SHARDAR_static.npy"  # persisted np.array
 
@@ -59,7 +64,11 @@ CATEGORY_CODING = {'Domestic': 0,
                    'ADR Primary': 10,
                    'ADR Warrant': 11,
                    'ADR Preferred': 12,
-                   'ADR Secondary': 13, }
+                   'ADR Secondary': 13,
+                   'EFT': 20, # all SFP
+                   'ETD': 20, # all SFP
+                   'IDX': 20, # all SFP
+                   '0'  : 20} # all SFP
 
 
 def create_sid_table_from_file(filepath):
@@ -136,5 +145,7 @@ def create_static_table_from_file(filepath):
 
 if __name__ == '__main__':
 
-    create_static_table_from_file(TICKER_FILE)
-    create_sid_table_from_file(TICKER_FILE)  # only SID sectors
+    #create_static_table_from_file(TICKER_FILE)
+    #create_sid_table_from_file(TICKER_FILE)  # only SID sectors
+    create_static_table_from_database(ZIPLINE_DATA_DIR, STATIC_FILE, BUNDLE_NAME, SECTOR_CODING, EXCHANGE_CODING, CATEGORY_CODING)
+
