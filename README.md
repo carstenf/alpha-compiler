@@ -1,5 +1,5 @@
 
-# Alpha Compiler
+# Alpha Compiler (forked to work with Security-Master)
 
 Various tools for quantitative finance with Python.  Many tools for working with the Zipline open source library, and replicating Quantopian tools in your personal env.   
 
@@ -8,4 +8,4 @@ Various tools for quantitative finance with Python.  Many tools for working with
 
 You can find details on Alpha Compiler [here](https://pbharrin.github.io/alpha-compiler/syntax "Title")
 
-This is a forked version to work with 
+ 
