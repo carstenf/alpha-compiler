@@ -32,7 +32,7 @@ END_DATE = datetime.datetime.today().strftime('%Y-%m-%d')
 #engine = create_engine('mysql+mysqlconnector://root:root@localhost/securities_master')
 
 
-ZIPLINE_DATA_DIR = '/Users/carstenfreek/.zipline/data/'  # TODO: get this from Zipline api
+ZIPLINE_DATA_DIR = '/Users/carsten/.zipline/data/'  # TODO: get this from Zipline api
 FN = "SP500mem.npy"
 
 Init_DATE = '1999-01-01' # First date in database
